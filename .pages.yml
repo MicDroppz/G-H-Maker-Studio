@@ -1,55 +1,68 @@
-Pages CMS Configuration File for G-H Maker Studio
-
-This enables direct admin visual editing on GitHub Pages or Cloudflare Pages
 
 media:
-input: assets/images
-output: /assets/images
+  input: assets/images
+  output: /assets/images
 
 content:
+  - name: homepage
+    label: Homepage Content
+    type: file
+    path: data/homepage.json
+    format: json
+    fields:
+      - name: hero_title
+        label: Hero Main Heading
+        type: string
+      - name: hero_subtitle
+        label: Hero Subtitle Description
+        type: text
+      - name: announcement_text
+        label: Top Announcement Bar
+        type: string
 
-name: homepage
-label: "Homepage Content"
-type: file
-path: "data/homepage.json"
-fields:
+  - name: workshops
+    label: Workshop Sessions
+    type: collection
+    path: data/workshops
+    format: json
+    fields:
+      - name: title
+        label: Workshop Name
+        type: string
+      - name: date
+        label: Date
+        type: string
+      - name: time
+        label: Time Slot
+        type: string
+      - name: price
+        label: Price per Seat
+        type: number
+      - name: seats_available
+        label: Available Seats
+        type: number
 
-{ name: hero_title, label: "Hero Main Heading", type: string }
-
-{ name: hero_subtitle, label: "Hero Subtitle Description", type: text }
-
-{ name: announcement_text, label: "Top Announcement Bar", type: string }
-
-name: workshops
-label: "Workshop Sessions"
-type: collection
-path: "data/workshops"
-fields:
-
-{ name: title, label: "Workshop Name", type: string }
-
-{ name: date, label: "Date String", type: string }
-
-{ name: time, label: "Time Slot", type: string }
-
-{ name: price, label: "Price per Seat ($)", type: number }
-
-{ name: seats_available, label: "Available Seats", type: number }
-
-name: products
-label: "Handmade Products & Kits"
-type: collection
-path: "data/products"
-fields:
-
-{ name: title, label: "Product Title", type: string }
-
-{ name: price, label: "Price ($)", type: string }
-
-{ name: category, label: "Category (handmade/workshop/kit)", type: string }
-
-{ name: badge, label: "Badge Label", type: string }
-
-{ name: image, label: "Product Image", type: image }
-
-{ name: description, label: "Short Description", type: text }
+  - name: products
+    label: Handmade Products and Kits
+    type: collection
+    path: data/products
+    format: json
+    fields:
+      - name: title
+        label: Product Title
+        type: string
+      - name: price
+        label: Price
+        type: string
+      - name: category
+        label: Category
+        type: string
+      - name: badge
+        label: Badge Label
+        type: string
+      - name: image
+        label: Product Image
+        type: image
+      - name: description
+        label: Short Description
+        type: text
