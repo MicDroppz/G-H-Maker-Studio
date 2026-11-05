@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-H Maker Studio | Craft, Create & Connect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Fredoka -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            coral: '#FF6B6B',
+                            teal: '#4ECDC4',
+                            yellow: '#FFE66D',
+                            mint: '#A8E6CF',
+                            dark: '#2D3436',
+                            cream: '#FFF9F0',
+                            purple: '#9B51E0'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Fredoka', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFF9F0;
+            color: #2D3436;
+        }
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .blob-bg {
+            background-image: radial-gradient(#4ECDC4 1px, transparent 1px), radial-gradient(#FF6B6B 1px, #FFF9F0 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            opacity: 0.15;
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-6px) rotate(0.5deg);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF9F0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4ECDC4;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FF6B6B;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-coral selection:text-white flex flex-col min-h-screen">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-brand-coral text-white text-sm py-2 px-4 text-center font-medium flex justify-center items-center gap-2 shadow-sm">
+        <span class="bg-white/20 text-xs px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">New Workshops</span>
+        <span>Spring Pottery & Resin Art Workshops Open for Registration!</span>
+        <a href="#workshops" class="underline font-bold hover:text-brand-yellow transition-colors ml-1">Reserve Seat &rarr;</a>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-brand-cream/90 backdrop-blur-md border-b-2 border-brand-dark/10 transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 bg-brand-yellow border-2 border-brand-dark rounded-2xl flex items-center justify-center font-heading font-bold text-2xl text-brand-dark shadow-[3px_3px_0px_0px_rgba(45,52,54,1)] group-hover:rotate-6 transition-transform">
+                    GH
+                </div>
+                <div>
+                    <span class="font-heading text-2xl font-bold tracking-wide text-brand-dark block leading-none">G-H MAKER</span>
+                    <span class="text-xs font-semibold text-brand-coral tracking-widest uppercase block mt-0.5">Studio & Creative Lab</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-brand-dark">
+                <a href="#catalog" class="hover:text-brand-coral transition-colors py-1">Shop Goods</a>
+                <a href="#workshops" class="hover:text-brand-coral transition-colors py-1">Workshops</a>
+                <a href="#custom" class="hover:text-brand-coral transition-colors py-1">Custom Orders</a>
+                <a href="#about" class="hover:text-brand-coral transition-colors py-1">Our Story</a>
+                <a href="#cms-info" class="text-xs bg-brand-teal/20 text-brand-dark px-2.5 py-1 rounded-full border border-brand-teal font-bold hover:bg-brand-teal hover:text-white transition-all">CMS Ready</a>
+            </nav>
+
+            <!-- Actions & Cart -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleCartModal()" class="relative p-2.5 bg-white border-2 border-brand-dark rounded-xl shadow-[3px_3px_0px_0px_rgba(45,52,54,1)] hover:translate-y-0.5 hover:shadow-none transition-all" aria-label="View Shopping Cart">
+                    <i class="fa-solid fa-bag-shopping text-lg text-brand-dark"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-brand-coral text-white font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center border border-brand-dark">0</span>
+                </button>
+
+                <a href="#workshops" class="hidden sm:inline-flex items-center gap-2 bg-brand-teal text-brand-dark font-heading font-semibold px-5 py-2.5 rounded-xl border-2 border-brand-dark shadow-[3px_3px_0px_0px_rgba(45,52,54,1)] hover:bg-brand-yellow hover:translate-x-0.5 hover:translate-y-0.5 transition-all">
+                    <i class="fa-solid fa-paint-brush text-sm"></i>
+                    Book Workshop
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 text-brand-dark hover:text-brand-coral focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brand-cream border-b-2 border-brand-dark px-4 pt-2 pb-6 space-y-3">
+            <a href="#catalog" onclick="toggleMobileMenu()" class="block py-2 text-lg font-heading font-medium border-b border-gray-200">Shop Goods</a>
+            <a href="#workshops" onclick="toggleMobileMenu()" class="block py-2 text-lg font-heading font-medium border-b border-gray-200">Workshops Schedule</a>
+            <a href="#custom" onclick="toggleMobileMenu()" class="block py-2 text-lg font-heading font-medium border-b border-gray-200">Custom Requests</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block py-2 text-lg font-heading font-medium border-b border-gray-200">About Studio</a>
+            <a href="#cms-info" onclick="toggleMobileMenu()" class="block py-2 text-sm text-brand-coral font-bold">Pages CMS Integration Info</a>
+            <a href="#workshops" onclick="toggleMobileMenu()" class="w-full text-center block bg-brand-teal text-brand-dark font-heading font-bold py-3 rounded-xl border-2 border-brand-dark mt-4">
+                Book Workshop
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow">
+
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden py-12 lg:py-20 bg-brand-cream">
+            <div class="absolute inset-0 blob-bg pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left Hero Content -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-yellow/80 border-2 border-brand-dark rounded-full font-bold text-sm shadow-[2px_2px_0px_0px_rgba(45,52,54,1)]">
+                            <span class="animate-pulse text-brand-coral">★</span> Handmade Crafts & Creative Space
+                        </div>
+                        
+                        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-heading font-bold leading-none text-brand-dark">
+                            Craft, Create & <span class="text-brand-coral underline decoration-brand-yellow decoration-wavy decoration-2">Connect</span> at G-H Studio
+                        </h1>
+                        
+                        <p class="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto lg:mx-0 font-normal">
+                            Welcome to G-H Maker Studio! We design custom hand-crafted goods, host interactive creative workshops, and build unique art pieces for makers of all skill levels.
+                        </p>
+
+                        <!-- Hero Action Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                            <a href="#workshops" class="inline-flex items-center justify-center gap-2 bg-brand-coral text-white font-heading font-bold text-lg px-8 py-4 rounded-2xl border-2 border-brand-dark shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] hover:bg-red-500 hover:translate-x-0.5 hover:translate-y-0.5 transition-all">
+                                <i class="fa-solid fa-calendar-check"></i>
+                                Explore Workshops
+                            </a>
+                            <a href="#catalog" class="inline-flex items-center justify-center gap-2 bg-white text-brand-dark font-heading font-bold text-lg px-8 py-4 rounded-2xl border-2 border-brand-dark shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] hover:bg-brand-mint hover:translate-x-0.5 hover:translate-y-0.5 transition-all">
+                                <i class="fa-solid fa-shapes"></i>
+                                Shop Handmade
+                            </a>
+                        </div>
+
+                        <!-- Mini Highlights -->
+                        <div class="pt-6 grid grid-cols-3 gap-4 border-t-2 border-brand-dark/10 max-w-lg mx-auto lg:mx-0">
+                            <div>
+                                <p class="font-heading font-bold text-2xl text-brand-dark">100%</p>
+                                <p class="text-xs text-gray-600 font-medium">Handcrafted</p>
+                            </div>
+                            <div>
+                                <p class="font-heading font-bold text-2xl text-brand-teal">25+</p>
+                                <p class="text-xs text-gray-600 font-medium">Monthly Classes</p>
+                            </div>
+                            <div>
+                                <p class="font-heading font-bold text-2xl text-brand-coral">5★</p>
+                                <p class="text-xs text-gray-600 font-medium">Maker Rating</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Visual / Featured Card Banner -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative mx-auto max-w-md lg:max-w-none">
+                            
+                            <!-- Main Decorative Frame -->
+                            <div class="bg-brand-mint border-4 border-brand-dark rounded-3xl p-4 shadow-[8px_8px_0px_0px_rgba(45,52,54,1)] rotate-1 hover:rotate-0 transition-transform duration-300">
+                                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" 
+                                     alt="Maker Studio Workshop Atmosphere" 
+                                     class="w-full h-80 sm:h-96 object-cover rounded-2xl border-2 border-brand-dark">
+                                
+                                <div class="mt-4 bg-white p-4 rounded-xl border-2 border-brand-dark flex items-center justify-between">
+                                    <div>
+                                        <span class="text-xs font-bold bg-brand-yellow px-2 py-0.5 rounded-full border border-brand-dark">Featured Space</span>
+                                        <h3 class="font-heading font-bold text-lg text-brand-dark mt-1">Open Studio & Workshop Hub</h3>
+                                    </div>
+                                    <span class="text-xl">🎨✨</span>
+                                </div>
+                            </div>
+
+                            <!-- Floating Badge 1 -->
+                            <div class="absolute -top-6 -left-6 bg-brand-yellow border-2 border-brand-dark p-3 rounded-2xl shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] hidden sm:block -rotate-6">
+                                <p class="font-heading font-bold text-xs text-brand-dark">🔨 Hands-On Fun</p>
+                            </div>
+
+                            <!-- Floating Badge 2 -->
+                            <div class="absolute -bottom-6 -right-4 bg-brand-coral text-white border-2 border-brand-dark p-3 rounded-2xl shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] hidden sm:block rotate-3">
+                                <p class="font-heading font-bold text-xs">🎁 Custom Gifts</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Product & Workshop Catalog Section -->
+        <section id="catalog" class="py-16 bg-white border-y-2 border-brand-dark/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                    <div>
+                        <span class="text-brand-coral font-bold text-sm uppercase tracking-wider">Studio Showcase</span>
+                        <h2 class="text-3xl sm:text-5xl font-heading font-bold text-brand-dark mt-1">Explore Products & Sessions</h2>
+                    </div>
+
+                    <!-- Category Filter Tabs -->
+                    <div class="flex flex-wrap gap-2" id="filter-tabs">
+                        <button onclick="filterCatalog('all')" class="filter-btn active-filter px-4 py-2 rounded-xl text-sm font-heading font-bold border-2 border-brand-dark transition-all bg-brand-dark text-white" data-category="all">
+                            All Items
+                        </button>
+                        <button onclick="filterCatalog('workshop')" class="filter-btn px-4 py-2 rounded-xl text-sm font-heading font-bold border-2 border-brand-dark bg-white text-brand-dark hover:bg-brand-yellow transition-all" data-category="workshop">
+                            Workshops
+                        </button>
+                        <button onclick="filterCatalog('handmade')" class="filter-btn px-4 py-2 rounded-xl text-sm font-heading font-bold border-2 border-brand-dark bg-white text-brand-dark hover:bg-brand-mint transition-all" data-category="handmade">
+                            Handmade Goods
+                        </button>
+                        <button onclick="filterCatalog('kit')" class="filter-btn px-4 py-2 rounded-xl text-sm font-heading font-bold border-2 border-brand-dark bg-white text-brand-dark hover:bg-brand-coral hover:text-white transition-all" data-category="kit">
+                            DIY Craft Kits
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Catalog Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="catalog-grid">
+                    <!-- Cards are populated via JS -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Interactive Workshop Calendar & Booking Section -->
+        <section id="workshops" class="py-16 bg-brand-cream border-b-2 border-brand-dark/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="bg-brand-teal/20 text-brand-dark font-bold text-xs uppercase px-3 py-1 rounded-full border border-brand-teal">Live Events</span>
+                    <h2 class="text-3xl sm:text-5xl font-heading font-bold text-brand-dark mt-2">Upcoming Workshop Schedule</h2>
+                    <p class="text-gray-600 mt-2 font-normal">Reserve your spot at our creative table. All materials, guidance, and refreshments are included!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Workshop Card 1 -->
+                    <div class="bg-white border-2 border-brand-dark rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] flex flex-col justify-between card-hover">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brand-yellow font-bold text-xs px-2.5 py-1 rounded-lg border border-brand-dark">Sat, Mar 15</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">4 Seats Left</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-brand-dark mb-2">Ceramic Mug Sculpting & Glazing</h3>
+                            <p class="text-sm text-gray-600 mb-4">Learn pinch-pot and slab building techniques to design your own custom coffee mug or tea cup.</p>
+                            <div class="text-xs text-gray-500 space-y-1 mb-6">
+                                <p><i class="fa-regular fa-clock text-brand-coral mr-2"></i>10:00 AM - 12:30 PM</p>
+                                <p><i class="fa-solid fa-location-dot text-brand-teal mr-2"></i>Main Studio Table A</p>
+                                <p><i class="fa-solid fa-tag text-brand-purple mr-2"></i>$55 / Person (Materials Included)</p>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Ceramic Mug Sculpting', '$55', 'Sat, Mar 15 - 10:00 AM')" class="w-full bg-brand-coral text-white font-heading font-bold py-3 rounded-xl border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] hover:bg-red-500 transition-all">
+                            Book This Seat
+                        </button>
+                    </div>
+
+                    <!-- Workshop Card 2 -->
+                    <div class="bg-white border-2 border-brand-dark rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] flex flex-col justify-between card-hover">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brand-mint font-bold text-xs px-2.5 py-1 rounded-lg border border-brand-dark">Wed, Mar 19</span>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">6 Seats Left</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-brand-dark mb-2">Botanical Resin Coaster Workshop</h3>
+                            <p class="text-sm text-gray-600 mb-4">Preserve real dried flowers and leaves inside crystal-clear epoxy resin coasters.</p>
+                            <div class="text-xs text-gray-500 space-y-1 mb-6">
+                                <p><i class="fa-regular fa-clock text-brand-coral mr-2"></i>6:00 PM - 8:00 PM</p>
+                                <p><i class="fa-solid fa-location-dot text-brand-teal mr-2"></i>Resin & Craft Lounge</p>
+                                <p><i class="fa-solid fa-tag text-brand-purple mr-2"></i>$48 / Person</p>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Botanical Resin Coasters', '$48', 'Wed, Mar 19 - 6:00 PM')" class="w-full bg-brand-teal text-brand-dark font-heading font-bold py-3 rounded-xl border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] hover:bg-brand-yellow transition-all">
+                            Book This Seat
+                        </button>
+                    </div>
+
+                    <!-- Workshop Card 3 -->
+                    <div class="bg-white border-2 border-brand-dark rounded-2xl p-6 shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] flex flex-col justify-between card-hover">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-brand-yellow font-bold text-xs px-2.5 py-1 rounded-lg border border-brand-dark">Sun, Mar 23</span>
+                                <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">2 Seats Left</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-brand-dark mb-2">Textured Canvas Painting Night</h3>
+                            <p class="text-sm text-gray-600 mb-4">Combine plaster paste and acrylic paints to form high-texture modern wall art for your home.</p>
+                            <div class="text-xs text-gray-500 space-y-1 mb-6">
+                                <p><i class="fa-regular fa-clock text-brand-coral mr-2"></i>2:00 PM - 5:00 PM</p>
+                                <p><i class="fa-solid fa-location-dot text-brand-teal mr-2"></i>Main Studio Table B</p>
+                                <p><i class="fa-solid fa-tag text-brand-purple mr-2"></i>$60 / Person</p>
+                            </div>
+                        </div>
+                        <button onclick="openBookingModal('Textured Canvas Painting', '$60', 'Sun, Mar 23 - 2:00 PM')" class="w-full bg-brand-coral text-white font-heading font-bold py-3 rounded-xl border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] hover:bg-red-500 transition-all">
+                            Book This Seat
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Custom Orders Request Form -->
+        <section id="custom" class="py-16 bg-white border-b-2 border-brand-dark/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-brand-yellow/30 border-4 border-brand-dark rounded-3xl p-8 lg:p-12 shadow-[8px_8px_0px_0px_rgba(45,52,54,1)] relative overflow-hidden">
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                        <div class="lg:col-span-6 space-y-4">
+                            <span class="bg-brand-coral text-white font-bold text-xs px-3 py-1 rounded-full border border-brand-dark">Custom Commissions</span>
+                            <h2 class="text-3xl sm:text-4xl font-heading font-bold text-brand-dark">Have a Unique Maker Idea?</h2>
+                            <p class="text-gray-700">We love custom woodworking, laser engravings, personalized gifts, and special party favors. Tell us what you need and our studio will bring it to life!</p>
+                            
+                            <ul class="space-y-2 font-medium text-sm text-brand-dark pt-2">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-coral"></i> Personalized laser-etched wooden signs</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-coral"></i> Custom wedding & event party favors</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-coral"></i> Bulk corporate workshop kits</li>
+                            </ul>
+                        </div>
+
+                        <!-- Inquiry Form -->
+                        <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-2xl border-2 border-brand-dark shadow-[4px_4px_0px_0px_rgba(45,52,54,1)]">
+                            <form id="custom-order-form" onsubmit="handleCustomSubmit(event)" class="space-y-4">
+                                <div>
+                                    <label class="block font-heading font-bold text-sm text-brand-dark mb-1">Your Name</label>
+                                    <input type="text" required placeholder="Jane Doe" class="w-full px-4 py-2.5 rounded-xl border-2 border-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-teal text-sm">
+                                </div>
+                                <div>
+                                    <label class="block font-heading font-bold text-sm text-brand-dark mb-1">Email Address</label>
+                                    <input type="email" required placeholder="jane@example.com" class="w-full px-4 py-2.5 rounded-xl border-2 border-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-teal text-sm">
+                                </div>
+                                <div>
+                                    <label class="block font-heading font-bold text-sm text-brand-dark mb-1">Project Idea & Details</label>
+                                    <textarea rows="3" required placeholder="Describe your custom commission ideas, dimensions, or quantity..." class="w-full px-4 py-2.5 rounded-xl border-2 border-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-teal text-sm"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-brand-dark text-white font-heading font-bold py-3 rounded-xl border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] hover:bg-brand-teal hover:text-brand-dark transition-all">
+                                    Send Custom Inquiry
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Story / About Section -->
+        <section id="about" class="py-16 bg-brand-cream border-b-2 border-brand-dark/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80" 
+                             alt="G-H Maker Studio Founders & Community" 
+                             class="w-full h-96 object-cover rounded-3xl border-4 border-brand-dark shadow-[8px_8px_0px_0px_rgba(45,52,54,1)]">
+                        <div class="absolute -bottom-4 -right-4 bg-brand-yellow border-2 border-brand-dark p-4 rounded-2xl shadow-[4px_4px_0px_0px_rgba(45,52,54,1)]">
+                            <p class="font-heading font-bold text-brand-dark text-sm">📍 Located in the Heart of Town</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <span class="text-brand-coral font-bold text-sm uppercase tracking-wider">Our Community</span>
+                        <h2 class="text-3xl sm:text-5xl font-heading font-bold text-brand-dark">Built by Makers, For Makers</h2>
+                        <p class="text-gray-700 leading-relaxed">
+                            G-H Maker Studio was born out of a passion for tactile creativity. We believe everyone has a craft inside them waiting to be discovered—whether it's ceramics, woodworking, resin art, or fiber crafts.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            Our studio provides a warm, supportive space where beginners can learn without intimidation, and experienced artisans can gather to share tools, ideas, and inspiration.
+                        </p>
+                        
+                        <div class="pt-4 flex flex-wrap gap-4">
+                            <div class="bg-white border-2 border-brand-dark p-3 rounded-xl shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] flex items-center gap-3">
+                                <span class="text-2xl">☕</span>
+                                <div>
+                                    <p class="font-heading font-bold text-sm">Free Coffee Bar</p>
+                                    <p class="text-xs text-gray-500">Included in workshops</p>
+                                </div>
+                            </div>
+                            <div class="bg-white border-2 border-brand-dark p-3 rounded-xl shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] flex items-center gap-3">
+                                <span class="text-2xl">🛠️</span>
+                                <div>
+                                    <p class="font-heading font-bold text-sm">Pro Tools Included</p>
+                                    <p class="text-xs text-gray-500">No gear required</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Pages CMS Integration & Info Drawer -->
+        <section id="cms-info" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="border-2 border-dashed border-brand-dark/30 rounded-3xl p-8 bg-slate-50">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-brand-purple text-white font-bold text-xs px-2.5 py-0.5 rounded-full">Pages CMS Configured</span>
+                                <span class="text-xs text-gray-500">Static Website + GitHub Pages</span>
+                            </div>
+                            <h3 class="text-2xl font-heading font-bold text-brand-dark">Easy Content Management with Pages CMS</h3>
+                            <p class="text-sm text-gray-600 mt-1 max-w-2xl">
+                                This site structure is ready to connect with <strong>Pages CMS</strong> via <code class="bg-gray-200 px-1.5 py-0.5 rounded text-xs font-mono text-brand-dark">.pages.yml</code>. Store owners can edit hero texts, update workshop dates, and add new handmade products without touching code.
+                            </p>
+                        </div>
+                        <button onclick="toggleCmsCodeModal()" class="bg-brand-dark text-white font-heading font-bold text-sm px-5 py-3 rounded-xl border-2 border-brand-dark shadow-[3px_3px_0px_0px_rgba(45,52,54,1)] hover:bg-brand-coral transition-all">
+                            <i class="fa-solid fa-code text-xs mr-2"></i> View `.pages.yml` Config
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark text-white pt-12 pb-8 border-t-4 border-brand-yellow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                
+                <!-- Col 1: Brand Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-10 h-10 bg-brand-yellow border border-white rounded-xl flex items-center justify-center font-heading font-bold text-xl text-brand-dark">
+                            GH
+                        </div>
+                        <span class="font-heading text-xl font-bold tracking-wide text-white">G-H MAKER STUDIO</span>
+                    </div>
+                    <p class="text-sm text-gray-300">A community space dedicated to hands-on craftsmanship, art workshops, and unique handmade goods.</p>
+                    <div class="flex gap-3 text-lg pt-2">
+                        <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-brand-coral transition-colors" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-brand-teal transition-colors" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-brand-yellow hover:text-brand-dark transition-colors" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-heading font-bold text-lg text-brand-yellow mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#catalog" class="hover:text-brand-coral transition-colors">Shop Handmade Goods</a></li>
+                        <li><a href="#workshops" class="hover:text-brand-coral transition-colors">Upcoming Workshops</a></li>
+                        <li><a href="#custom" class="hover:text-brand-coral transition-colors">Request Custom Orders</a></li>
+                        <li><a href="#about" class="hover:text-brand-coral transition-colors">About Our Studio</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Studio Hours -->
+                <div>
+                    <h4 class="font-heading font-bold text-lg text-brand-yellow mb-4">Studio Hours</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex justify-between"><span>Thu - Fri:</span> <span class="font-semibold text-white">12:00 PM - 7:00 PM</span></li>
+                        <li class="flex justify-between"><span>Sat - Sun:</span> <span class="font-semibold text-white">10:00 AM - 6:00 PM</span></li>
+                        <li class="flex justify-between"><span>Mon - Wed:</span> <span class="text-brand-coral font-semibold">Private Events Only</span></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Newsletter -->
+                <div>
+                    <h4 class="font-heading font-bold text-lg text-brand-yellow mb-4">Join Maker Club</h4>
+                    <p class="text-xs text-gray-300 mb-3">Get first access to workshop openings and exclusive discount drops.</p>
+                    <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                        <input type="email" required placeholder="Enter your email" class="w-full px-3 py-2 text-sm rounded-lg text-brand-dark focus:outline-none">
+                        <button type="submit" class="w-full bg-brand-teal text-brand-dark font-heading font-bold text-sm py-2 rounded-lg hover:bg-brand-yellow transition-colors">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-400">
+                <p>&copy; 2026 G-H Maker Studio. All rights reserved.</p>
+                <p>Designed for Pages CMS & Static Web Hosting.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Modal Drawer -->
+    <div id="cart-drawer" class="fixed inset-0 bg-brand-dark/50 backdrop-blur-sm z-50 hidden transition-opacity">
+        <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-brand-cream border-l-4 border-brand-dark p-6 overflow-y-auto flex flex-col justify-between shadow-2xl">
+            <div>
+                <div class="flex items-center justify-between pb-4 border-b-2 border-brand-dark/10">
+                    <h3 class="font-heading font-bold text-2xl text-brand-dark">Your Maker Cart</h3>
+                    <button onclick="toggleCartModal()" class="text-brand-dark hover:text-brand-coral text-2xl font-bold">&times;</button>
+                </div>
+
+                <div id="cart-items" class="py-6 space-y-4">
+                    <!-- Cart items populated via JS -->
+                    <p id="empty-cart-msg" class="text-center text-gray-500 py-8">Your cart is currently empty. Explore our handmade goods and workshops!</p>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t-2 border-brand-dark/10 space-y-4">
+                <div class="flex justify-between items-center font-heading font-bold text-xl text-brand-dark">
+                    <span>Total Amount:</span>
+                    <span id="cart-total-price">$0.00</span>
+                </div>
+                <button onclick="checkoutCart()" class="w-full bg-brand-coral text-white font-heading font-bold py-3.5 rounded-xl border-2 border-brand-dark shadow-[3px_3px_0px_0px_rgba(45,52,54,1)] hover:bg-red-500 transition-all">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workshop Reservation Modal -->
+    <div id="booking-modal" class="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-brand-dark rounded-3xl max-w-md w-full p-6 shadow-[8px_8px_0px_0px_rgba(45,52,54,1)] relative">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-gray-400 hover:text-brand-dark text-2xl font-bold">&times;</button>
+            
+            <div class="mb-4">
+                <span class="bg-brand-yellow font-bold text-xs px-2.5 py-1 rounded-full border border-brand-dark">Seat Reservation</span>
+                <h3 id="modal-workshop-title" class="font-heading font-bold text-2xl text-brand-dark mt-2">Workshop Title</h3>
+                <p id="modal-workshop-time" class="text-xs text-brand-coral font-bold mt-1"></p>
+            </div>
+
+            <form onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block font-heading font-bold text-xs text-brand-dark mb-1">Full Name</label>
+                    <input type="text" required placeholder="Alex Smith" class="w-full px-3 py-2 rounded-xl border-2 border-brand-dark text-sm focus:ring-2 focus:ring-brand-teal">
+                </div>
+                <div>
+                    <label class="block font-heading font-bold text-xs text-brand-dark mb-1">Email Address</label>
+                    <input type="email" required placeholder="alex@example.com" class="w-full px-3 py-2 rounded-xl border-2 border-brand-dark text-sm focus:ring-2 focus:ring-brand-teal">
+                </div>
+                <div>
+                    <label class="block font-heading font-bold text-xs text-brand-dark mb-1">Number of Attendees</label>
+                    <select id="modal-seats" onchange="updateBookingTotal()" class="w-full px-3 py-2 rounded-xl border-2 border-brand-dark text-sm bg-white">
+                        <option value="1">1 Person</option>
+                        <option value="2">2 Persons</option>
+                        <option value="3">3 Persons</option>
+                        <option value="4">4 Persons</option>
+                    </select>
+                </div>
+
+                <div class="p-3 bg-brand-cream border-2 border-brand-dark rounded-xl flex justify-between items-center">
+                    <span class="font-heading font-bold text-sm">Total Due:</span>
+                    <span id="modal-total-price" class="font-heading font-bold text-xl text-brand-coral">$0</span>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-teal text-brand-dark font-heading font-bold py-3 rounded-xl border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] hover:bg-brand-yellow transition-all">
+                    Confirm Seat Reservation
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pages CMS Config Code Modal -->
+    <div id="cms-code-modal" class="fixed inset-0 bg-brand-dark/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white border-4 border-brand-dark rounded-3xl max-w-2xl w-full p-6 shadow-[8px_8px_0px_0px_rgba(45,52,54,1)] relative max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b-2 border-brand-dark">
+                <h3 class="font-heading font-bold text-xl text-brand-dark">Pages CMS Configuration (<code class="text-sm bg-gray-100 px-1.5 py-0.5 rounded">.pages.yml</code>)</h3>
+                <button onclick="toggleCmsCodeModal()" class="text-gray-400 hover:text-brand-dark text-2xl font-bold">&times;</button>
+            </div>
+            
+            <p class="text-xs text-gray-600 my-3">
+                Place this file in your root GitHub repository as <code class="font-mono font-bold text-brand-dark">.pages.yml</code> to enable Pages CMS admin controls for G-H Maker Studio.
+            </p>
+
+            <pre class="bg-gray-900 text-emerald-400 font-mono text-xs p-4 rounded-xl overflow-x-auto flex-grow border-2 border-brand-dark">
+media:
+  input: assets/images
+  output: /assets/images
+
+content:
+  - name: homepage
+    label: "Homepage Settings"
+    type: file
+    path: "data/homepage.json"
+    fields:
+      - { name: hero_title, label: "Hero Title", type: string }
+      - { name: hero_subtitle, label: "Hero Subtitle", type: text }
+      - { name: announcement_bar, label: "Announcement Text", type: string }
+
+  - name: workshops
+    label: "Workshops Schedule"
+    type: collection
+    path: "data/workshops"
+    fields:
+      - { name: title, label: "Workshop Title", type: string }
+      - { name: date, label: "Date & Time", type: string }
+      - { name: price, label: "Price ($)", type: number }
+      - { name: seats_available, label: "Available Seats", type: number }
+
+  - name: products
+    label: "Handmade Products"
+    type: collection
+    path: "data/products"
+    fields:
+      - { name: name, label: "Product Name", type: string }
+      - { name: price, label: "Price ($)", type: number }
+      - { name: category, label: "Category", type: string }
+      - { name: image, label: "Image", type: image }</pre>
+
+            <div class="mt-4 text-right">
+                <button onclick="toggleCmsCodeModal()" class="bg-brand-dark text-white font-heading font-bold text-sm px-5 py-2 rounded-xl">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-brand-dark text-white px-5 py-3 rounded-xl border-2 border-brand-yellow shadow-[4px_4px_0px_0px_rgba(255,230,109,1)] transform translate-y-24 opacity-0 transition-all duration-300 z-50 font-heading text-sm flex items-center gap-2">
+        <i class="fa-solid fa-circle-check text-brand-mint"></i>
+        <span id="toast-message">Notification message</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Sample Products & Workshop Catalog Items
+        const catalogItems = [
+            {
+                id: 1,
+                title: 'Hand-Poured Soy Candle',
+                category: 'handmade',
+                price: '$24.00',
+                badge: 'Best Seller',
+                badgeBg: 'bg-brand-yellow',
+                image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=600&q=80',
+                desc: 'Scented with natural cedarwood and dried lavender flakes.'
+            },
+            {
+                id: 2,
+                title: 'Ceramic Mug Sculpting',
+                category: 'workshop',
+                price: '$55.00',
+                badge: 'Live Workshop',
+                badgeBg: 'bg-brand-coral text-white',
+                image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=600&q=80',
+                desc: '2.5 hour beginner friendly pottery class.'
+            },
+            {
+                id: 3,
+                title: 'DIY Wood Carving Starter Kit',
+                category: 'kit',
+                price: '$38.00',
+                badge: 'DIY Kit',
+                badgeBg: 'bg-brand-mint',
+                image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
+                desc: 'Includes 3 basswood blocks, carving knives, and video tutorial.'
+            },
+            {
+                id: 4,
+                title: 'Resin Botanical Coaster Set',
+                category: 'handmade',
+                price: '$32.00',
+                badge: 'Handcrafted',
+                badgeBg: 'bg-brand-mint',
+                image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=80',
+                desc: 'Set of 4 handmade crystal resin coasters with dried flora.'
+            },
+            {
+                id: 5,
+                title: 'Textured Painting Session',
+                category: 'workshop',
+                price: '$60.00',
+                badge: 'Live Workshop',
+                badgeBg: 'bg-brand-coral text-white',
+                image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80',
+                desc: '3 hour art class with acrylic paste texturing.'
+            },
+            {
+                id: 6,
+                title: 'Macramé Plant Hanger Kit',
+                category: 'kit',
+                price: '$28.00',
+                badge: 'DIY Kit',
+                badgeBg: 'bg-brand-yellow',
+                image: 'https://images.unsplash.com/photo-1528183429752-a97d0bf99b5a?auto=format&fit=crop&w=600&q=80',
+                desc: '100% organic cotton cords, wooden ring, and step-by-step guide.'
+            }
+        ];
+
+        // State Store
+        let cart = [];
+        let currentModalPrice = 0;
+
+        // Render Catalog Items
+        function renderCatalog(filter = 'all') {
+            const grid = document.getElementById('catalog-grid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'all' 
+                ? catalogItems 
+                : catalogItems.filter(item => item.category === filter);
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white border-2 border-brand-dark rounded-2xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(45,52,54,1)] card-hover flex flex-col justify-between';
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden border-b-2 border-brand-dark">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 left-3 font-heading font-bold text-xs px-2.5 py-1 rounded-lg border border-brand-dark shadow-sm ${item.badgeBg}">
+                                ${item.badge}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h3 class="font-heading font-bold text-lg text-brand-dark">${item.title}</h3>
+                                <span class="font-heading font-bold text-brand-coral text-lg">${item.price}</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-4">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <button onclick="addToCart(${item.id})" class="w-full bg-brand-yellow text-brand-dark font-heading font-bold py-2.5 rounded-xl border-2 border-brand-dark shadow-[2px_2px_0px_0px_rgba(45,52,54,1)] hover:bg-brand-teal transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cart-plus text-xs"></i>
+                            ${item.category === 'workshop' ? 'Reserve Seat' : 'Add to Cart'}
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Catalog Handler
+        function filterCatalog(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.className = 'filter-btn active-filter px-4 py-2 rounded-xl text-sm font-heading font-bold border-2 border-brand-dark transition-all bg-brand-dark text-white';
+                } else {
+                    btn.className = 'filter-btn px-4 py-2 rounded-xl text-sm font-heading font-bold border-2 border-brand-dark bg-white text-brand-dark hover:bg-brand-yellow transition-all';
+                }
+            });
+            renderCatalog(category);
+        }
+
+        // Add Item to Cart
+        function addToCart(itemId) {
+            const item = catalogItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existing = cart.find(i => i.id === itemId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Added "${item.title}" to your cart!`);
+        }
+
+        // Update Cart UI Drawer
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalPriceEl = document.getElementById('cart-total-price');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalCount;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-center text-gray-500 py-8">Your cart is empty. Explore our handmade goods and workshops!</p>';
+                totalPriceEl.innerText = '$0.00';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = '';
+            let grandTotal = 0;
+
+            cart.forEach(item => {
+                const numPrice = parseFloat(item.price.replace('$', ''));
+                const itemTotal = numPrice * item.qty;
+                grandTotal += itemTotal;
+
+                const cartRow = document.createElement('div');
+                cartRow.className = 'flex items-center gap-3 p-3 bg-white border-2 border-brand-dark rounded-xl shadow-sm';
+                cartRow.innerHTML = `
+                    <img src="${item.image}" class="w-14 h-14 rounded-lg object-cover border border-brand-dark">
+                    <div class="flex-grow">
+                        <h4 class="font-heading font-bold text-sm text-brand-dark">${item.title}</h4>
+                        <p class="text-xs text-brand-coral font-bold">${item.price} x ${item.qty}</p>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="changeQty(${item.id}, -1)" class="w-6 h-6 bg-gray-100 border border-brand-dark rounded font-bold text-xs">-</button>
+                        <span class="text-xs font-bold px-1">${item.qty}</span>
+                        <button onclick="changeQty(${item.id}, 1)" class="w-6 h-6 bg-gray-100 border border-brand-dark rounded font-bold text-xs">+</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartRow);
+            });
+
+            totalPriceEl.innerText = `$${grandTotal.toFixed(2)}`;
+        }
+
+        // Change Cart Item Quantity
+        function changeQty(itemId, delta) {
+            const index = cart.findIndex(i => i.id === itemId);
+            if (index !== -1) {
+                cart[index].qty += delta;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        // Toggle Cart Drawer
+        function toggleCartModal() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        // Checkout Cart Simulation
+        function checkoutCart() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty!');
+                return;
+            }
+            cart = [];
+            updateCartUI();
+            toggleCartModal();
+            showToast('Order submitted! Check your email for confirmation.');
+        }
+
+        // Toggle Mobile Navigation
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Open Workshop Reservation Modal
+        function openBookingModal(title, priceStr, timeStr) {
+            document.getElementById('modal-workshop-title').innerText = title;
+            document.getElementById('modal-workshop-time').innerText = timeStr;
+            currentModalPrice = parseFloat(priceStr.replace('$', ''));
+            
+            document.getElementById('modal-seats').value = '1';
+            updateBookingTotal();
+
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+
+        // Close Workshop Reservation Modal
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+
+        // Update Reservation Total
+        function updateBookingTotal() {
+            const seats = parseInt(document.getElementById('modal-seats').value) || 1;
+            const total = currentModalPrice * seats;
+            document.getElementById('modal-total-price').innerText = `$${total.toFixed(2)}`;
+        }
+
+        // Handle Booking Form Submit
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            closeBookingModal();
+            showToast('Seat reserved successfully! Welcome to G-H Maker Studio.');
+        }
+
+        // Handle Custom Inquiry Submit
+        function handleCustomSubmit(e) {
+            e.preventDefault();
+            e.target.reset();
+            showToast('Custom order inquiry sent! We will respond within 24 hours.');
+        }
+
+        // Handle Newsletter Form
+        function handleNewsletter(e) {
+            e.preventDefault();
+            e.target.reset();
+            showToast('Welcome to the Maker Club!');
+        }
+
+        // Toggle Pages CMS Code Modal
+        function toggleCmsCodeModal() {
+            document.getElementById('cms-code-modal').classList.toggle('hidden');
+        }
+
+        // Show Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderCatalog('all');
+        }
+    </script>
+</body>
+</html>
